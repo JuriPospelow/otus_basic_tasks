@@ -1,0 +1,3 @@
+/home/juri/Schreibtisch/LearnCPP_020923/otus/tasks/task2/source-12995-f8d6de/CMakeFiles/hello_world.dir
+/home/juri/Schreibtisch/LearnCPP_020923/otus/tasks/task2/source-12995-f8d6de/CMakeFiles/edit_cache.dir
+/home/juri/Schreibtisch/LearnCPP_020923/otus/tasks/task2/source-12995-f8d6de/CMakeFiles/rebuild_cache.dir
