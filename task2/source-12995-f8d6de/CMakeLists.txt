@@ -5,8 +5,6 @@ project(01.hello_world)
 add_executable(hello_world 
     hello_world.cpp
     example.cpp
-    example.h
-    move_me_out.hpp
     move_me_out.cpp
 )
 
