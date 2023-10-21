@@ -5,10 +5,6 @@ project(03.homework)
 add_executable(
 	check_value
 	check_value.cpp
-)
-
-add_executable(
-	random_value
 	random_value.cpp
 )
 

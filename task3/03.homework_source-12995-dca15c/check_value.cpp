@@ -1,8 +1,9 @@
 #include <iostream>
+#include "random_value.hpp"
 
 int main() {
 
-    const unsigned int target_value = 54;
+    const unsigned int target_value = get_random_value();
     unsigned int current_value = 0;
     bool not_win = true;
 

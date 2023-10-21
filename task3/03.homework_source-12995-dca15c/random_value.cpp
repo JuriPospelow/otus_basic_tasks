@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-int main() {
+int get_random_value() {
 
     const int max_value = 100;
 
@@ -13,5 +13,5 @@ int main() {
 
     std::cout << random_value << std::endl;
 
-    return 0;
+    return random_value;
 }
