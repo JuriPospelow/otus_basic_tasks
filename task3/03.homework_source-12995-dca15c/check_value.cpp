@@ -18,6 +18,11 @@ unsigned max_value{};
             max_value = std::stoi(argv[2]);
             //std::cout << "The '-parameter' value = " << parameter_value << std::endl;
         }
+        else if (arg1_value == "-table") {
+            read4file();
+            return 0;
+        }
+
     }
 
     const unsigned int target_value = get_random_value(max_value);
@@ -54,8 +59,6 @@ unsigned max_value{};
     put_attempts_count(attempts_cnt);
     write2file();
     read4file();
-
-
 
     return 0;
 }
