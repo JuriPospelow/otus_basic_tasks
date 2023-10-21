@@ -6,10 +6,6 @@ add_executable(
 	check_value
 	check_value.cpp
 	random_value.cpp
-)
-
-add_executable(
-	high_scores
 	high_scores.cpp
 )
 
