@@ -2,6 +2,12 @@
 #include <fstream>
 #include <string>
 
+#include <map>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
 std::string user_name;
 const std::string high_scores_filename = "high_scores.txt";
 unsigned attempts_count{};
@@ -38,8 +44,10 @@ int write2file()
 // Read the high score file and print all results
 int read4file()
 {
-   std::ifstream in_file{high_scores_filename};
-   if (!in_file.is_open()) {
+    typedef multimap<string, int> MultiMap;
+    MultiMap multimap_high_score;
+    std::ifstream in_file{high_scores_filename};
+    if (!in_file.is_open()) {
        std::cout << "Failed to open file for read: " << high_scores_filename << "!" << std::endl;
        return -1;
     }
@@ -57,9 +65,40 @@ int read4file()
         if (in_file.fail()) {
             break;
         }
-
+        multimap_high_score.insert(pair<string, int>(username, high_score));
         // Print the information to the screen
-        std::cout << username << '\t' << high_score << std::endl;
+        // std::cout << username << '\t' << high_score << std::endl;
     }
+    // printing multimap multimap_high_score
+    MultiMap::iterator itr;
+    cout << "\tUser Name\tHIGH SCORE\n";
+
+    vector<string> v_moreThanOne;
+    string tmp{};
+
+    for (itr = multimap_high_score.begin(); itr != multimap_high_score.end(); ++itr) {
+        if(multimap_high_score.count(itr->first) == 1) {
+            cout << '\t' << itr->first << "\t\t" << itr->second
+                << '\n';
+        } else {
+            if (tmp != itr->first) v_moreThanOne.push_back(itr->first);
+            tmp = itr->first;
+      }
+    }
+    pair <MultiMap::iterator, MultiMap::iterator> ret;
+    int tmp_value{numeric_limits<int>::max()};
+    for (vector<string>::iterator itr = v_moreThanOne.begin(); itr != v_moreThanOne.end(); ++itr) {
+         cout << *itr << "\t\t";
+        ret = multimap_high_score.equal_range(*itr);
+        for (MultiMap::iterator it=ret.first; it!=ret.second; ++it) {
+            tmp_value = it->second < tmp_value ? it->second : tmp_value;
+        }
+        cout << tmp_value << endl;
+        tmp_value = numeric_limits<int>::max();
+    }
+
+
+    cout << endl;
+
     return 0;
 }

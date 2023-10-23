@@ -1,8 +1,10 @@
 S 10
 D 1
-A 1
+A 1023
 C 42
-A 1
+A 123
 B 2
-Juri 2
-Juri 0
+Juri 20
+Juri 10
+A 111
+A 100
