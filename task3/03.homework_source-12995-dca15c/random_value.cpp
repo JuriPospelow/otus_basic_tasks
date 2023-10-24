@@ -11,7 +11,7 @@ int get_random_value(unsigned max_value_) {
 
     const int random_value = std::rand() % max_value;
 
-    std::cout << "random_value: " << random_value << " max_value: " << max_value << std::endl;
+    // std::cout << "random_value: " << random_value << " max_value: " << max_value << std::endl;
 
     return random_value;
 }

@@ -8,3 +8,6 @@ Juri 20
 Juri 10
 A 111
 A 100
+juri 2
+sam 0
+sam 3

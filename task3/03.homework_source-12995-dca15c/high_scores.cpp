@@ -88,7 +88,7 @@ int read4file()
     pair <MultiMap::iterator, MultiMap::iterator> ret;
     int tmp_value{numeric_limits<int>::max()};
     for (vector<string>::iterator itr = v_moreThanOne.begin(); itr != v_moreThanOne.end(); ++itr) {
-         cout << *itr << "\t\t";
+         cout << '\t' << *itr << "\t\t";
         ret = multimap_high_score.equal_range(*itr);
         for (MultiMap::iterator it=ret.first; it!=ret.second; ++it) {
             tmp_value = it->second < tmp_value ? it->second : tmp_value;
