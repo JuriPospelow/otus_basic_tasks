@@ -9,7 +9,7 @@ add_executable(
 	high_scores.cpp
 )
 
-add_executable(
-	argument
-	argument.cpp
+set_target_properties(check_value PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
 )
