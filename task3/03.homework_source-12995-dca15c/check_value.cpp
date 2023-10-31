@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv) {
 
-unsigned max_value{};
+unsigned max_value{100};
 
     if (argc >= 2) {
       std::string arg1_value{ argv[1] };
