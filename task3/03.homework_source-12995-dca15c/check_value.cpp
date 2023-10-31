@@ -2,6 +2,15 @@
 #include "random_value.hpp"
 #include "high_scores.hpp"
 
+using namespace std;
+
+void help()
+{
+    cout << "Usage: check_value [-max X] [-table] [-level Y]" << endl;
+    cout << "X max value for randow generator" << endl;
+    cout << "Y = [1,2,3]" << endl;
+}
+
 int main(int argc, char** argv) {
 
 unsigned max_value{100};
@@ -22,7 +31,38 @@ unsigned max_value{100};
             read4file();
             return 0;
         }
-
+        else if (arg1_value == "-test") {
+            clean_file();
+            return 0;
+        }
+        else if (arg1_value == "-level") {
+           if (argc < 3) {
+                std::cout << "Wrong usage! The argument '-level' requires some value!" << std::endl;
+                return -1;
+            }
+            // We need to parse the string to the int value
+            int level = std::stoi(argv[2]);
+            switch(level){
+                case 1:
+                    max_value = 10;
+                break;
+                case 2:
+                    max_value = 50;
+                break;
+                case 3:
+                    max_value = 100;
+                break;
+                default:
+                    return -1;
+            }
+        }
+        else {
+            help();
+            return -1;
+        }
+    } else {
+        help();
+        return -1;
     }
 
     const unsigned int target_value = get_random_value(max_value);

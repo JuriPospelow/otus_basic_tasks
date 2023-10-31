@@ -8,4 +8,6 @@ void write2file();
 // Read the high score file and print all results
 void read4file();
 
+int clean_file();
+
 #endif
