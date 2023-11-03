@@ -2,7 +2,7 @@
 #include "Point.hpp"
 #include <cmath>
 
-class Velocity {
+class Velocity : public Point {
   public:
     inline Velocity() = default;
 
