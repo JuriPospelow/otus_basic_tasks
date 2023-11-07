@@ -2,7 +2,7 @@
 #include <cmath>
 
 
-Ball::Ball(Point& center, Velocity& velocity, Color& color, double radius, bool isCollidable)
+Ball::Ball(const Point& center, const Velocity& velocity, const Color& color, const double radius, const bool isCollidable)
 : _center(center), _velocity (velocity), _color (color), _radius (radius), _isCollidable (isCollidable)
 {
     _mass = M_PI *pow(_radius,3) * 4. / 3;

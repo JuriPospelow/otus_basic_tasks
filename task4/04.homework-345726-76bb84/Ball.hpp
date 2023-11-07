@@ -5,7 +5,7 @@
 
 class Ball {
 public:
-    Ball(Point& center, Velocity& velocity, Color& color, double radius, bool isCollidable);
+    Ball(const Point& center, const Velocity& velocity, const Color& color, const double radius, const bool isCollidable);
 
     void setVelocity(const Velocity& velocity);
     Velocity getVelocity() const;
