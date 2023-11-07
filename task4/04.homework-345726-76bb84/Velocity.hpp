@@ -2,7 +2,7 @@
 #include "Point.hpp"
 #include <cmath>
 
-class Velocity : public Point {
+class Velocity {
   public:
     inline Velocity() = default;
 
@@ -24,7 +24,10 @@ class Velocity : public Point {
     inline Point vector() const {
         return vec;
     }
-
+    friend std::istream & operator>>(std::istream & is, Velocity & rv) {
+        is >> rv.vec.x >> rv.vec.y;
+        return is;
+    }
   private:
     Point vec;
 };
