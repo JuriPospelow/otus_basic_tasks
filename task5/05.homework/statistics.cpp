@@ -2,13 +2,14 @@
 #include <limits>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
 class IStatistics {
 public:
 	virtual ~IStatistics() {}
 
 	virtual void update(double next) = 0;
-	virtual double eval(double total = 0) const = 0;
+	virtual double eval(double total = 0) = 0;
 	virtual const char * name() const = 0;
 };
 
@@ -23,7 +24,7 @@ public:
 		}
 	}
 
-	double eval(double) const override {
+	double eval(double) override {
 		return m_min;
 	}
 
@@ -46,7 +47,7 @@ public:
 		}
 	}
 
-	double eval(double) const override {
+	double eval(double) override {
 		return m_max;
 	}
 
@@ -67,7 +68,7 @@ public:
 		m_mean += next;
 	}
 
-	double eval(double total = 1) const override {
+	double eval(double total = 1) override {
 		return m_mean/total;
 	}
 
@@ -91,7 +92,7 @@ public:
         tmp.push_back(next);
 	}
 
-	double eval(double total = 1) const override {
+	double eval(double total = 1) override {
         double m = m_std/total;
         double d{};
         for(auto it = tmp.begin(); it != tmp.end(); ++it) {
@@ -110,15 +111,40 @@ private:
     vector<double> tmp{};
 };
 
+class PCT90 : public IStatistics {
+public:
+	PCT90() : tmp{} {
+	}
+
+	void update(double next) override {
+        tmp.push_back((static_cast<int>(next)));
+	}
+
+	double eval(double total = 1) override {
+        sort(tmp.begin(), tmp.end());
+        int pos = static_cast<int>(total*0.9);
+        // cout << "p: " << pos << endl;
+		return tmp[pos - 1];
+	}
+
+	const char * name() const override {
+		return "ptc90";
+	}
+
+private:
+    vector<int> tmp{};
+};
+
 int main() {
 
-	const size_t statistics_count = 4;
+	const size_t statistics_count = 5;
 	IStatistics *statistics[statistics_count];
 
 	statistics[0] = new Min{};
 	statistics[1] = new Max{};
 	statistics[2] = new Mean{};
 	statistics[3] = new Std{};
+	statistics[4] = new PCT90{};
 
 	double val = 0;
 	double total = 0;
