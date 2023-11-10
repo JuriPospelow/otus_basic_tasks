@@ -1,5 +1,7 @@
 #include <iostream>
 #include <limits>
+#include <vector>
+#include <cmath>
 
 class IStatistics {
 public:
@@ -77,14 +79,46 @@ private:
 	double m_mean{};
 };
 
+using namespace std;
+
+class Std : public IStatistics {
+public:
+	Std() : m_std{} {
+	}
+
+	void update(double next) override {
+		m_std += next;
+        tmp.push_back(next);
+	}
+
+	double eval(double total = 1) const override {
+        double m = m_std/total;
+        double d{};
+        for(auto it = tmp.begin(); it != tmp.end(); ++it) {
+            d = d + pow((*it - m),2);
+        }
+
+		return sqrt(d/total);
+	}
+
+	const char * name() const override {
+		return "std";
+	}
+
+private:
+	double m_std{};
+    vector<double> tmp{};
+};
+
 int main() {
 
-	const size_t statistics_count = 3;
+	const size_t statistics_count = 4;
 	IStatistics *statistics[statistics_count];
 
 	statistics[0] = new Min{};
 	statistics[1] = new Max{};
 	statistics[2] = new Mean{};
+	statistics[3] = new Std{};
 
 	double val = 0;
 	double total = 0;
