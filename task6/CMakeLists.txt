@@ -8,5 +8,5 @@ set_target_properties(container PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED
 
 target_compile_options(container PRIVATE
         $<$<CXX_COMPILER_ID:MSVC>:/W4>
-        $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -ggdb -fconcepts>
+        $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -ggdb>
         )
