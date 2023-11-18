@@ -1,32 +1,32 @@
 #include <iostream>
 #include <cstring>
+#include <vector>
 
 using namespace std;
 using const_iterator = size_t;
 
-/* template <typename T>
+template <typename T>
 class Container
 {
 public:
-    virtual ~Container() = 0;
-    virtual void push_back(const T&) = 0;
+    virtual ~Container(){};
+    // virtual void push_back(const T&) = 0;
     virtual size_t size() const = 0;
-    virtual T& operator[] (size_t n) = 0;
-    void insert (const_iterator position, const T& val) = 0;
-    void erase (const_iterator first, const_iterator last);
+    // virtual T& operator[] (size_t n) = 0;
+    // void insert (const_iterator position, const T& val) = 0;
+    // void erase (const_iterator first, const_iterator last);
+    size_t _size{};
+
 };
- */
+
+// using _size = Container<T>::_size; -- funktioniert nicht, deswegen ist Base class hier ueberfluesig.
+
 template <typename T>
-class SeqContainer/*  : public Container<T> */
+class SeqContainer /*: public Container<T>*/
 {
 public:
-    SeqContainer()
-    {
-        ptr = {};//new T [1];
-/*         _size = 1;
-        _iter = 0; */
-    }
-   ~SeqContainer()
+
+   ~SeqContainer() /*override*/
     {
         delete[] ptr;
     }
@@ -98,12 +98,7 @@ struct Node {
 };
 
 public:
-    List()
-    {
-        list = {};//new T [1];
-/*         _size = 1;
-        _iter = 0; */
-    }
+
    ~List()
     {
         delete[] list;
@@ -185,10 +180,10 @@ private:
 
 };
 
-void testSeqContainer()
+void testSeqContainer(SeqContainer <auto>& c)
 {
     cout << "Test class SeqContainer\n";
-    SeqContainer <int> c;
+    // SeqContainer <int> c;
 
     for (int i{}; i<10; ++i) {
         c.push_back(i);
@@ -213,12 +208,9 @@ void testSeqContainer()
 }
 
 
-int main()
+void testList(List <auto>& l)
 {
-    // testSeqContainer();
-
     cout << "Test class List\n";
-    List <int> l;
 
     cout << "test push_back:" << endl;
      for (int i{}; i<10; ++i) {
@@ -228,7 +220,6 @@ int main()
     cout << "container size: " << l.size() << endl;
 
     cout << "test operator[]:" << endl;
-
     cout << "data in node 5: " << l[5] << endl;
     int tmp = l[5];
     cout << "assigned value 123 to data in node 5\n";
@@ -237,6 +228,7 @@ int main()
     cout << "set value again\n";
     l[5] = tmp;
     cout << l[5] << endl;
+
     cout << "test erase:" << endl;
     l.erase(2);
     l.erase(3);
@@ -251,6 +243,19 @@ int main()
 
     l.insert(l.size(),30);
     l.print();
+}
 
+int main()
+{
+    vector<SeqContainer <int>> vector_seq_cont(3);
+
+     for (size_t it {}; it < vector_seq_cont.size(); ++it) {
+        testSeqContainer(vector_seq_cont[it]);
+    }
+
+    // vector<List <int>> vector_list(3);
+     // for (size_t it {}; it < vector_list.size(); ++it) {
+        // testList(vector_list[it]);
+    // }
 return 0;
 }
