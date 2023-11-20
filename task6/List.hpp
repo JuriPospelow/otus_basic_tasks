@@ -1,43 +1,89 @@
 #pragma once
 
-template <typename T>
-class List
+namespace dll
 {
-struct Node {
-    Node* next; // указатель на следующий элемент Node
-    Node* prev; // указатель на предыдущий элемент Node
-    T data; // пользовательские данные (хранимый объект)
-};
-
-public:
-
-   ~List()
+    template <typename T>
+    class DoublyLinkedList
     {
-        delete[] list;
-    }
+    struct Node {
+        Node* next; // указатель на следующий элемент Node
+        Node* prev; // указатель на предыдущий элемент Node
+        T data; // пользовательские данные (хранимый объект)
+    };
 
-    void push_back(const T& val);
+    public:
 
-    size_t size() const
+       ~DoublyLinkedList()
+        {
+            delete[] list;
+        }
+
+        void push_back(const T& val);
+
+        size_t size() const
+        {
+            return _size;
+        }
+        T& operator[] (size_t n) const
+        {
+            return list[n].data;
+        }
+        void erase (const_iterator first);
+
+        void insert (const_iterator position, const T& val);
+
+        void print() const;
+
+    private:
+        Node* list{};
+        size_t _size{};
+
+        size_t _iter{};
+        void update();
+    };
+} // end namespace dll
+
+namespace sll
+{
+    template <typename T>
+    class SingleLinkedList
     {
-        return _size;
-    }
-    T& operator[] (size_t n) const
-    {
-        return list[n].data;
-    }
-    void erase (const_iterator first);
+    struct Node {
+        Node* next; // указатель на следующий элемент Node
+        T data; // пользовательские данные (хранимый объект)
+    };
 
-    void insert (const_iterator position, const T& val);
+    public:
 
-    void print() const;
+       ~SingleLinkedList()
+        {
+            delete[] list;
+        }
 
-private:
-    Node* list{};
-    size_t _size{};
+        void push_back(const T& val);
 
-    size_t _iter{};
-    void update();
-};
+        size_t size() const
+        {
+            return _size;
+        }
+        T& operator[] (size_t n) const
+        {
+            return list[n].data;
+        }
+        void erase (const_iterator first);
+
+        void insert (const_iterator position, const T& val);
+
+        void print() const;
+
+    private:
+        Node* list{};
+        size_t _size{};
+
+        size_t _iter{};
+        void update();
+    };
+} // end namespace sll
+
 
 #include "List.cpp"

@@ -35,7 +35,8 @@ void testSeqContainer()
 void testList()
 {
     cout << "Test class List\n";
-    List <int> l;
+    // sll::SingleLinkedList <int> l;
+    dll::DoublyLinkedList <int> l;
 
     cout << "test push_back:" << endl;
      for (int i{}; i<10; ++i) {
@@ -73,8 +74,8 @@ void testList()
 int main()
 {
 
-    testSeqContainer();
-    // testList();
+    // testSeqContainer();
+    testList();
 
 
 return 0;
