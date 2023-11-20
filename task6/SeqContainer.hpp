@@ -7,6 +7,12 @@ class SeqContainer
 {
 public:
 
+explicit
+    SeqContainer(double factor=0.5): _factor{factor}
+    {
+        _factor = _factor > 2 ? 2 : _factor;
+    }
+
    ~SeqContainer()
     {
         delete[] ptr;
@@ -16,7 +22,7 @@ public:
 
     size_t size() const
     {
-        return _size;
+        return _cnt;
     }
     T& operator[] (size_t n) const
     {
@@ -29,9 +35,11 @@ public:
     void print() const;
 
 private:
+    double _factor{0.5};
     T* ptr{};
     size_t _size{};
-    size_t _iter{};
+    size_t _cnt{};
+    void resize();
 };
 
 #include "SeqContainer.cpp"

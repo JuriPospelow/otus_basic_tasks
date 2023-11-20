@@ -8,7 +8,7 @@ using namespace std;
 void testSeqContainer()
 {
     cout << "Test class SeqContainer\n";
-    SeqContainer <int> c;
+    SeqContainer <int> c(10);
 
     for (int i{}; i<10; ++i) {
         c.push_back(i);
@@ -73,8 +73,8 @@ void testList()
 int main()
 {
 
-    // testSeqContainer();
-    testList();
+    testSeqContainer();
+    // testList();
 
 
 return 0;
