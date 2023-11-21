@@ -59,10 +59,14 @@ namespace sll
 
     public:
 
-       ~SingleLinkedList()
-        {
-            delete[] list;
-        }
+       SingleLinkedList();
+       ~SingleLinkedList();
+
+        SingleLinkedList(const SingleLinkedList &);
+        SingleLinkedList(SingleLinkedList &&);
+
+        SingleLinkedList& operator=(const SingleLinkedList &);
+        SingleLinkedList& operator=(SingleLinkedList &&);
 
         void push_back(const T& val);
 

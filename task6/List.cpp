@@ -133,6 +133,60 @@ namespace dll
 namespace sll
 {
     template <typename T>
+    SingleLinkedList<T>::SingleLinkedList()
+    {
+        cout << "constructor: " << this << endl;
+    }
+    template <typename T>
+    SingleLinkedList<T>::~SingleLinkedList()
+    {
+        delete[] list;
+        cout << "destructor: " << this << endl;
+    }
+    template <typename T>
+    SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList &other)
+    {
+        _size = other._size;
+        list = new Node [_size];
+        memcpy(list, other.list, (_size)*sizeof(Node));
+        cout << "copy constructor: " << this << endl;
+    }
+    template <typename T>
+    SingleLinkedList<T>::SingleLinkedList(SingleLinkedList && other)
+    {
+        _size = other._size;
+        list = other.list;
+        other.list = nullptr;
+        other._size = 0;
+        cout << "move constructor: " << this << endl;
+    }
+
+
+    template <typename T>
+    SingleLinkedList<T>& SingleLinkedList<T>::operator=(const SingleLinkedList & other)
+    {
+        if(list == other.list) return *this;
+        delete [] list;
+        _size = other._size;
+        list = new Node [_size];
+        memcpy(list, other.list, (_size)*sizeof(Node));
+        cout << "assigned operator: " << this << endl;
+        return *this;
+    }
+    template <typename T>
+    SingleLinkedList<T>& SingleLinkedList<T>::operator=(SingleLinkedList && other)
+    {
+        if(list == other.list) return *this;
+        delete [] list;
+        _size = other._size;
+        list = other.list;
+        other.list = nullptr;
+        other._size = 0;
+        cout << "move assigned operator: " << this << endl;
+        return *this;
+    }
+
+    template <typename T>
     void SingleLinkedList<T>::push_back(const T& val)
     {
         ++_size;

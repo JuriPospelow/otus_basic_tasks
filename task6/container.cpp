@@ -157,7 +157,7 @@ int main(int argc, char** argv)
             return 0;
         } else if (arg1_value == "-sll") {
             sll::SingleLinkedList <int> l;
-            // testList(l);
+            testList(l);
             return 0;
         } else if (arg1_value == "-dll") {
             dll::DoublyLinkedList <int> l;
