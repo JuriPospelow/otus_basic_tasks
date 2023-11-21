@@ -6,6 +6,80 @@
 using namespace std;
 
 template <typename T>
+SeqContainer<T>::SeqContainer(double factor): _factor{factor}
+{
+    _factor = _factor > 2 ? 2 : _factor;
+    std::cout << "constructor: " << this << std::endl;
+}
+
+template <typename T>
+SeqContainer<T>::SeqContainer(const SeqContainer & other)
+{
+    _factor = other._factor;
+    _size = other._size;
+    _cnt  = other._cnt;
+
+    ptr = new T [_size];
+    memcpy(ptr, other.ptr, (_cnt)*sizeof(T));
+
+    std::cout << "copy constructor: " << this << std::endl;
+}
+
+template <typename T>
+SeqContainer<T>::SeqContainer(SeqContainer && other)
+{
+    _factor = other._factor;
+    _size = other._size;
+    _cnt  = other._cnt;
+    ptr = other.ptr;
+
+    other.ptr = nullptr;
+    other._factor = other._size = other._cnt = 0;
+    std::cout << "move constructor: " << this << std::endl;
+}
+
+template <typename T>
+SeqContainer<T>& SeqContainer<T>::operator=(SeqContainer && other)
+{
+    if (ptr == other.ptr) return *this;
+    delete[] ptr;
+    _factor = other._factor;
+    _size = other._size;
+    _cnt  = other._cnt;
+    ptr = other.ptr;
+
+    other.ptr = nullptr;
+    other._factor = other._size = other._cnt = 0;
+
+    std::cout << "move operator=: " << this << std::endl;
+    return *this;
+}
+
+template <typename T>
+SeqContainer<T>& SeqContainer<T>::operator=(const SeqContainer & other)
+{
+    if (ptr == other.ptr) return *this;
+    delete[] ptr;
+    _factor = other._factor;
+    _size = other._size;
+    _cnt  = other._cnt;
+    ptr = new T [_size];
+    memcpy(ptr, other.ptr, (_cnt)*sizeof(T));
+
+    std::cout << "operator=: " << this << std::endl;
+    return *this;
+}
+
+
+template <typename T>
+SeqContainer<T>::~SeqContainer()
+{
+    delete[] ptr;
+    std::cout << "destructor: " << this << std::endl;
+}
+
+
+template <typename T>
 void SeqContainer<T>::resize()
 {
     T* new_region = new T [_size];

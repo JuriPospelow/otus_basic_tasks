@@ -8,15 +8,12 @@ class SeqContainer
 public:
 
 explicit
-    SeqContainer(double factor=0.5): _factor{factor}
-    {
-        _factor = _factor > 2 ? 2 : _factor;
-    }
-
-   ~SeqContainer()
-    {
-        delete[] ptr;
-    }
+    SeqContainer(double factor=0.5);
+    SeqContainer(const SeqContainer&);
+    SeqContainer(SeqContainer&&);
+    SeqContainer & operator=(SeqContainer && other);
+    SeqContainer & operator=(const SeqContainer & other);
+   ~SeqContainer();
 
     void push_back(const T& val);
 

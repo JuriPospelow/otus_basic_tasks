@@ -44,6 +44,36 @@ void testSeqContainer(double factor)
 
     c.insert(c.size(),30);
     c.print();
+
+    cout << "copy container:\n";
+    SeqContainer <int> d = c;
+    cout << "new container = old container!\n";
+    d.print();
+
+    cout << "assigned container:\n";
+    cout << "insert(): \n";
+    c.insert(0,100);
+    d = c;
+    cout << &d <<": ";
+    d.print();
+    cout << &c <<": ";
+    c.print();
+
+    cout << "move container:\n";
+    SeqContainer <int> m = move(c);
+    cout << &m <<": "; m.print();
+
+    cout << "move assigned container:\n";
+    cout << "insert(): \n";
+    d.insert(0,1000);
+    SeqContainer<int> a(2);
+    a = move(d);
+    cout << &a <<": ";
+    a.print();
+    cout << &d <<": ";
+    d.print();
+    cout << "container is empty! = ok\n";
+
 }
 template <typename L>
 void testList(L & l)
