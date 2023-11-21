@@ -5,11 +5,23 @@
 
 using namespace std;
 
-void testSeqContainer()
+void help()
 {
-    cout << "Test class SeqContainer\n";
-    SeqContainer <int> c(10);
+    cout << "Usage:" << endl;
+    cout << "-sc X, test sequence containers,\n"
+         << "    X - factor for free place [0..2],\n";
+    cout << "    0 - without free place, 0.5 - factory settings" << endl;
+    cout << "-sll - test single linked list" << endl;
+    cout << "-dll - test doubly linked list" << endl;
+}
 
+void testSeqContainer(double factor)
+{
+    cout << "Test class SeqContainer with factor: ";
+    cout << factor<< endl << endl;
+    SeqContainer <int> c(factor);
+
+    cout << "push_back(): ";
     for (int i{}; i<10; ++i) {
         c.push_back(i);
     }
@@ -17,11 +29,13 @@ void testSeqContainer()
 
     cout << "container size: " << c.size() << endl;
 
+    cout << "erase(): ";
     c.erase(2);
     c.erase(3);
     c.erase(4);
     c.print();
 
+    cout << "insert(): \n";
     c.insert(0,10);
     c.print();
 
@@ -31,21 +45,19 @@ void testSeqContainer()
     c.insert(c.size(),30);
     c.print();
 }
-
-void testList()
+template <typename L>
+void testList(L & l)
 {
     cout << "Test class List\n";
-    // sll::SingleLinkedList <int> l;
-    dll::DoublyLinkedList <int> l;
 
-    cout << "test push_back:" << endl;
+    cout << "push_back():" << endl;
      for (int i{}; i<10; ++i) {
         l.push_back(i);
     }
     l.print();
     cout << "container size: " << l.size() << endl;
 
-    cout << "test operator[]:" << endl;
+    cout << "operator[]:" << endl;
 
     cout << "data in node 5: " << l[5] << endl;
     int tmp = l[5];
@@ -55,12 +67,13 @@ void testList()
     cout << "set value again\n";
     l[5] = tmp;
     cout << l[5] << endl;
-    cout << "test erase:" << endl;
+    cout << "erase():" << endl;
     l.erase(2);
     l.erase(3);
     l.erase(4);
     l.print();
 
+    cout << "insert():" << endl;
     l.insert(0,10);
     l.print();
 
@@ -71,12 +84,29 @@ void testList()
     l.print();
 }
 
-int main()
+int main(int argc, char** argv)
 {
-
-    // testSeqContainer();
-    testList();
-
+    if (argc >= 2 && argc < 4) {
+      std::string arg1_value{ argv[1] };
+        if (arg1_value == "-sc") {
+            auto factor = argv[2] != 0 ? std::stoi(argv[2]) : 0.5;
+            testSeqContainer(factor);
+            return 0;
+        } else if (arg1_value == "-sll") {
+            sll::SingleLinkedList <int> l;
+            testList(l);
+            return 0;
+        } else if (arg1_value == "-dll") {
+            dll::DoublyLinkedList <int> l;
+            testList(l);
+            return 0;
+        }
+    } else {
+            help();
+            cout << "\nfor example: ./container -sc 0:\n\n";
+            testSeqContainer(0);
+            return 0;
+    }
 
 return 0;
 }
