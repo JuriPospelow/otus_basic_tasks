@@ -5,18 +5,22 @@ namespace dll
     template <typename T>
     class DoublyLinkedList
     {
-    struct Node {
+        struct Node {
         Node* next; // указатель на следующий элемент Node
         Node* prev; // указатель на предыдущий элемент Node
         T data; // пользовательские данные (хранимый объект)
-    };
+        };
 
     public:
 
-       ~DoublyLinkedList()
-        {
-            delete[] list;
-        }
+       DoublyLinkedList();
+       ~DoublyLinkedList();
+
+        DoublyLinkedList(const DoublyLinkedList &);
+        DoublyLinkedList(DoublyLinkedList &&);
+
+        DoublyLinkedList& operator=(const DoublyLinkedList &);
+        DoublyLinkedList& operator=(DoublyLinkedList &&);
 
         void push_back(const T& val);
 

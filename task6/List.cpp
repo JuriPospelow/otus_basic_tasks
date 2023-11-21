@@ -8,6 +8,60 @@ using namespace std;
 namespace dll
 {
     template <typename T>
+    DoublyLinkedList<T>::DoublyLinkedList()
+    {
+        cout << "constructor: " << this << endl;
+    }
+    template <typename T>
+    DoublyLinkedList<T>::~DoublyLinkedList()
+    {
+        delete[] list;
+        cout << "destructor: " << this << endl;
+    }
+    template <typename T>
+    DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &other)
+    {
+        _size = other._size;
+        list = new Node [_size];
+        memcpy(list, other.list, (_size)*sizeof(Node));
+        cout << "copy constructor: " << this << endl;
+    }
+    template <typename T>
+    DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList && other)
+    {
+        _size = other._size;
+        list = other.list;
+        other.list = nullptr;
+        other._size = 0;
+        cout << "move constructor: " << this << endl;
+    }
+
+
+    template <typename T>
+    DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList & other)
+    {
+        if(list == other.list) return *this;
+        delete [] list;
+        _size = other._size;
+        list = new Node [_size];
+        memcpy(list, other.list, (_size)*sizeof(Node));
+        cout << "assigned operator: " << this << endl;
+        return *this;
+    }
+    template <typename T>
+    DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList && other)
+    {
+        if(list == other.list) return *this;
+        delete [] list;
+        _size = other._size;
+        list = other.list;
+        other.list = nullptr;
+        other._size = 0;
+        cout << "move assigned operator: " << this << endl;
+        return *this;
+    }
+
+    template <typename T>
     void DoublyLinkedList<T>::push_back(const T& val)
     {
         ++_size;

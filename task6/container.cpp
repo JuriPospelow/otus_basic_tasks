@@ -75,8 +75,10 @@ void testSeqContainer(double factor)
     cout << "container is empty! = ok\n";
 
 }
-template <typename L>
-void testList(L & l)
+// template <template <T> class L>
+// template <typename T>
+template<template<typename> class L>
+void testList(L<int> & l)
 {
     cout << "Test class List\n";
 
@@ -111,7 +113,38 @@ void testList(L & l)
     l.print();
 
     l.insert(l.size(),30);
+    cout <<&l <<": "; l.print();
+// ---------------------------------------------
+    cout << "copy container:\n";
+    L <int> d = l;
+    cout << "new container = old container = ok\n";
+    cout << &d <<": ";d.print();
+
+    cout << "assigned container:\n";
+    cout << "insert(): \n";
+    l.insert(0,100);
+    d = l;
+    cout << &d <<": ";
+    d.print();
+    cout << &l <<": ";
     l.print();
+
+    cout << "move container:\n";
+    L <int> m = move(l);
+    cout << &m <<": "; m.print();
+
+    cout << "move assigned container:\n";
+    cout << "insert(): \n";
+    d.insert(0,1000);
+    L <int> a;
+    a = move(d);
+    cout << &a <<": ";
+    a.print();
+    cout << &d <<": ";
+    d.print();
+    cout << "container is empty! = ok\n";
+
+
 }
 
 int main(int argc, char** argv)
@@ -124,7 +157,7 @@ int main(int argc, char** argv)
             return 0;
         } else if (arg1_value == "-sll") {
             sll::SingleLinkedList <int> l;
-            testList(l);
+            // testList(l);
             return 0;
         } else if (arg1_value == "-dll") {
             dll::DoublyLinkedList <int> l;
