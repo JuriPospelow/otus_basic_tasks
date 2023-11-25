@@ -9,10 +9,11 @@ public:
 
 explicit
     SeqContainer(double factor=0.5);
+    SeqContainer(double factor, size_t size, size_t cnt = size);
     SeqContainer(const SeqContainer&);
     SeqContainer(SeqContainer&&);
-    SeqContainer & operator=(SeqContainer && other);
-    SeqContainer & operator=(const SeqContainer & other);
+    // SeqContainer & operator=(SeqContainer && other); -> теперь его функцию выполняет обычный operator=
+    SeqContainer & operator=(SeqContainer other);
    ~SeqContainer();
 
     void push_back(const T& val);
@@ -33,9 +34,11 @@ explicit
 
 private:
     double _factor{0.5};
-    T* ptr{};
     size_t _size{};
     size_t _cnt{};
+    T* ptr{};
+
+    void _swap(SeqContainer&);
     void resize();
 };
 
