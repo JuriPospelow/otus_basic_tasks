@@ -69,7 +69,7 @@ namespace dll
     template <typename T>
     void DoublyLinkedList<T>::erase(const_iterator first)
     {
-        for (size_t i {first}; i < _size; ++i){
+        for (size_t i {first}; i < _size-1; ++i){
             list[i] = list[i+1];
         }
         --_size;
@@ -83,19 +83,15 @@ namespace dll
             push_back(val);
             return;
         }
-        ++_size;
-        Node* new_region = new Node [_size];
+
+        Node* new_region = new Node [_size+1];
         new_region[position].data = val;
 
-        memcpy(new_region+position+1, list+position, (_size - position -1)*sizeof(Node));
-
-        if(position != 0) memcpy(new_region, list, (position)*sizeof(Node));
-
-        // uninitialized_copy(ptr+position, ptr + _cnt+1, new_region+position+1);
-        // if(position != 0) uninitialized_copy(ptr, ptr+position, new_region);
-
+        uninitialized_copy(list+position, list + _size, new_region+position+1);
+        if(position != 0) uninitialized_copy(list, list+position, new_region);
 
         swap(list, new_region);
+        ++_size;
         update();
     }
 
@@ -200,7 +196,7 @@ namespace sll
     template <typename T>
     void SingleLinkedList<T>::erase(const_iterator first)
     {
-        for (size_t i {first}; i < _size; ++i){
+        for (size_t i {first}; i < _size-1; ++i){
             list[i] = list[i+1];
         }
         --_size;
