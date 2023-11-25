@@ -113,24 +113,22 @@ void SeqContainer<T>::insert (const_iterator position, const T& val)
         push_back(val);
         return;
     }
+
     size_t tmp{_size};
     if (_size < 2 || _factor <= 0) {
         ++tmp;
-        resize(tmp);
     } else if (_cnt+1 >= _size) {
         tmp += tmp*_factor;
-        resize(tmp);
     }
-    ++_cnt;
-    T* new_region = new T [_size];
+    T* new_region = new T [tmp];
     new_region[position] = val;
 
-    memcpy(new_region+position+1, ptr+position, (_cnt - position -1)*sizeof(T));
+    uninitialized_copy(ptr+position, ptr + _cnt+1, new_region+position+1);
+    if(position != 0) uninitialized_copy(ptr, ptr+position, new_region);
 
-    if(position != 0) memcpy(new_region, ptr, (position)*sizeof(T));
-
-    delete[] ptr;
-    ptr = new_region;
+    swap(ptr, new_region);
+    ++_cnt;
+    _size = tmp;
 }
 
 template <typename T>
