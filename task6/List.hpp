@@ -12,15 +12,15 @@ namespace dll
         };
 
     public:
-
-       DoublyLinkedList();
+explicit
+       DoublyLinkedList(size_t size = 0);
        ~DoublyLinkedList();
 
         DoublyLinkedList(const DoublyLinkedList &);
         DoublyLinkedList(DoublyLinkedList &&);
 
-        DoublyLinkedList& operator=(const DoublyLinkedList &);
-        DoublyLinkedList& operator=(DoublyLinkedList &&);
+        DoublyLinkedList& operator=(DoublyLinkedList);
+        // DoublyLinkedList& operator=(DoublyLinkedList &&);
 
         void push_back(const T& val);
 
@@ -39,11 +39,11 @@ namespace dll
         void print() const;
 
     private:
-        Node* list{};
         size_t _size{};
+        Node* list{};
 
-        size_t _iter{};
         void update();
+        void _swap(DoublyLinkedList&);
     };
 } // end namespace dll
 
@@ -59,7 +59,7 @@ namespace sll
 
     public:
 
-       SingleLinkedList();
+       SingleLinkedList(size_t size = 0);
        ~SingleLinkedList();
 
         SingleLinkedList(const SingleLinkedList &);
@@ -85,10 +85,9 @@ namespace sll
         void print() const;
 
     private:
-        Node* list{};
         size_t _size{};
+        Node* list{};
 
-        size_t _iter{};
         void update();
     };
 } // end namespace sll

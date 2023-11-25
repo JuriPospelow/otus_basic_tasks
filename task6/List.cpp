@@ -8,7 +8,8 @@ using namespace std;
 namespace dll
 {
     template <typename T>
-    DoublyLinkedList<T>::DoublyLinkedList()
+    DoublyLinkedList<T>::DoublyLinkedList(size_t size)
+    : _size(size), list(size==0 ? nullptr : new Node [_size])
     {
         cout << "constructor: " << this << endl;
     }
@@ -20,57 +21,48 @@ namespace dll
     }
     template <typename T>
     DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &other)
+    : DoublyLinkedList(other._size)
     {
-        _size = other._size;
-        list = new Node [_size];
-        memcpy(list, other.list, (_size)*sizeof(Node));
+        uninitialized_copy(other.list, other.list + _size, list);
+        update();
         cout << "copy constructor: " << this << endl;
     }
+
+    template <typename T>
+    void DoublyLinkedList<T>::_swap(DoublyLinkedList& other)
+    {
+        swap(_size, other._size);
+        swap(list, other.list);
+    }
+
+    template <typename T>
+    DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList other)
+    {
+        _swap(other);
+        cout << "operator=: " << this << endl;
+        return *this;
+    }
+
+
     template <typename T>
     DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList && other)
     {
-        _size = other._size;
-        list = other.list;
+        _swap(other);
+
         other.list = nullptr;
         other._size = 0;
         cout << "move constructor: " << this << endl;
     }
 
-
-    template <typename T>
-    DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList & other)
-    {
-        if(list == other.list) return *this;
-        delete [] list;
-        _size = other._size;
-        list = new Node [_size];
-        memcpy(list, other.list, (_size)*sizeof(Node));
-        cout << "assigned operator: " << this << endl;
-        return *this;
-    }
-    template <typename T>
-    DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList && other)
-    {
-        if(list == other.list) return *this;
-        delete [] list;
-        _size = other._size;
-        list = other.list;
-        other.list = nullptr;
-        other._size = 0;
-        cout << "move assigned operator: " << this << endl;
-        return *this;
-    }
-
     template <typename T>
     void DoublyLinkedList<T>::push_back(const T& val)
     {
+        Node* new_region = new Node [_size+1];
+        uninitialized_copy(list, list + _size, new_region);
+        new_region[_size].data = val;
+
+        swap(list, new_region);
         ++_size;
-        // ++_iter;
-        Node* new_region = new Node [_size];
-        memcpy(new_region, list, (_size-1)*sizeof(Node));
-        new_region[_size-1].data = val;
-        delete[] list;
-        list = new_region;
         update();
     }
 
@@ -99,8 +91,11 @@ namespace dll
 
         if(position != 0) memcpy(new_region, list, (position)*sizeof(Node));
 
-        delete[] list;
-        list = new_region;
+        // uninitialized_copy(ptr+position, ptr + _cnt+1, new_region+position+1);
+        // if(position != 0) uninitialized_copy(ptr, ptr+position, new_region);
+
+
+        swap(list, new_region);
         update();
     }
 
@@ -133,10 +128,12 @@ namespace dll
 namespace sll
 {
     template <typename T>
-    SingleLinkedList<T>::SingleLinkedList()
+    SingleLinkedList<T>::SingleLinkedList(size_t size)
+    : _size(size), list(size==0 ? nullptr : new Node [_size])
     {
         cout << "constructor: " << this << endl;
     }
+
     template <typename T>
     SingleLinkedList<T>::~SingleLinkedList()
     {
@@ -145,12 +142,13 @@ namespace sll
     }
     template <typename T>
     SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList &other)
+     : SingleLinkedList(other._size)
     {
-        _size = other._size;
-        list = new Node [_size];
-        memcpy(list, other.list, (_size)*sizeof(Node));
+        uninitialized_copy(other.list, other.list + _size, list);
+        update();
         cout << "copy constructor: " << this << endl;
     }
+
     template <typename T>
     SingleLinkedList<T>::SingleLinkedList(SingleLinkedList && other)
     {
