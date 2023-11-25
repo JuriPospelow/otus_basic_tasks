@@ -72,27 +72,27 @@ SeqContainer<T>::~SeqContainer()
 
 
 template <typename T>
-void SeqContainer<T>::resize()
+void SeqContainer<T>::resize(size_t tmp_size)
 {
-    T* new_region = new T [_size];
-    memcpy(new_region, ptr, (_cnt-1)*sizeof(T));
-    delete[] ptr;
-    ptr = new_region;
+    T* new_region = new T [tmp_size];
+    uninitialized_copy(ptr, ptr + _cnt, new_region);
+    swap(ptr, new_region);
+    _size = tmp_size;
 }
 
 template <typename T>
 void SeqContainer<T>::push_back(const T& val)
 {
-    ++_cnt;
+    size_t tmp{_size};
     if (_size < 2 || _factor <= 0) {
-        ++_size;
-        resize();
-    } else if (_cnt >= _size) {
-        _size += _size*_factor;
-        resize();
+        ++tmp;
+        resize(tmp);
+    } else if (_cnt+1 >= _size) {
+        tmp += tmp*_factor;
+        resize(tmp);
     }
-    ptr[_cnt-1] = val;
-
+    ptr[_cnt] = val;
+    ++_cnt;
 }
 
 template <typename T>
@@ -113,15 +113,15 @@ void SeqContainer<T>::insert (const_iterator position, const T& val)
         push_back(val);
         return;
     }
-    ++_cnt;
+    size_t tmp{_size};
     if (_size < 2 || _factor <= 0) {
-        ++_size;
-        resize();
-    } else if (_cnt >= _size) {
-        _size += _size*_factor;
-        resize();
+        ++tmp;
+        resize(tmp);
+    } else if (_cnt+1 >= _size) {
+        tmp += tmp*_factor;
+        resize(tmp);
     }
-
+    ++_cnt;
     T* new_region = new T [_size];
     new_region[position] = val;
 

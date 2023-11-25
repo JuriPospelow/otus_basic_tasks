@@ -39,7 +39,7 @@ private:
     T* ptr{};
 
     void _swap(SeqContainer&);
-    void resize();
+    void resize(size_t);
 };
 
 #include "SeqContainer.cpp"
