@@ -146,50 +146,40 @@ namespace sll
     }
 
     template <typename T>
+    void SingleLinkedList<T>::_swap(SingleLinkedList& other)
+    {
+        swap(_size, other._size);
+        swap(list, other.list);
+    }
+
+    template <typename T>
+    SingleLinkedList<T>& SingleLinkedList<T>::operator=(SingleLinkedList other)
+    {
+        _swap(other);
+        cout << "operator=: " << this << endl;
+        return *this;
+    }
+
+
+    template <typename T>
     SingleLinkedList<T>::SingleLinkedList(SingleLinkedList && other)
     {
-        _size = other._size;
-        list = other.list;
+        _swap(other);
+
         other.list = nullptr;
         other._size = 0;
         cout << "move constructor: " << this << endl;
     }
 
-
-    template <typename T>
-    SingleLinkedList<T>& SingleLinkedList<T>::operator=(const SingleLinkedList & other)
-    {
-        if(list == other.list) return *this;
-        delete [] list;
-        _size = other._size;
-        list = new Node [_size];
-        memcpy(list, other.list, (_size)*sizeof(Node));
-        cout << "assigned operator: " << this << endl;
-        return *this;
-    }
-    template <typename T>
-    SingleLinkedList<T>& SingleLinkedList<T>::operator=(SingleLinkedList && other)
-    {
-        if(list == other.list) return *this;
-        delete [] list;
-        _size = other._size;
-        list = other.list;
-        other.list = nullptr;
-        other._size = 0;
-        cout << "move assigned operator: " << this << endl;
-        return *this;
-    }
-
     template <typename T>
     void SingleLinkedList<T>::push_back(const T& val)
     {
+        Node* new_region = new Node [_size+1];
+        uninitialized_copy(list, list + _size, new_region);
+        new_region[_size].data = val;
+
+        swap(list, new_region);
         ++_size;
-        // ++_iter;
-        Node* new_region = new Node [_size];
-        memcpy(new_region, list, (_size-1)*sizeof(Node));
-        new_region[_size-1].data = val;
-        delete[] list;
-        list = new_region;
         update();
     }
 
@@ -210,16 +200,14 @@ namespace sll
             push_back(val);
             return;
         }
-        ++_size;
-        Node* new_region = new Node [_size];
+        Node* new_region = new Node [_size+1];
         new_region[position].data = val;
 
-        memcpy(new_region+position+1, list+position, (_size - position -1)*sizeof(Node));
+        uninitialized_copy(list+position, list + _size, new_region+position+1);
+        if(position != 0) uninitialized_copy(list, list+position, new_region);
 
-        if(position != 0) memcpy(new_region, list, (position)*sizeof(Node));
-
-        delete[] list;
-        list = new_region;
+        swap(list, new_region);
+        ++_size;
         update();
     }
 

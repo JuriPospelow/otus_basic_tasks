@@ -58,15 +58,15 @@ namespace sll
     };
 
     public:
-
+explicit
        SingleLinkedList(size_t size = 0);
        ~SingleLinkedList();
 
         SingleLinkedList(const SingleLinkedList &);
         SingleLinkedList(SingleLinkedList &&);
 
-        SingleLinkedList& operator=(const SingleLinkedList &);
-        SingleLinkedList& operator=(SingleLinkedList &&);
+        SingleLinkedList& operator=(SingleLinkedList );
+        // SingleLinkedList& operator=(SingleLinkedList &&);
 
         void push_back(const T& val);
 
@@ -89,6 +89,7 @@ namespace sll
         Node* list{};
 
         void update();
+        void _swap(SingleLinkedList&);
     };
 } // end namespace sll
 
