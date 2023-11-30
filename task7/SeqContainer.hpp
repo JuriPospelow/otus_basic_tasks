@@ -26,6 +26,12 @@ explicit
     {
         return _factor;
     }
+
+    T* get_ptr() const
+    {
+        return ptr;
+    }
+
     T& operator[] (size_t n) const
     {
         return ptr[n];

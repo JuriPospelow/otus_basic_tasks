@@ -11,7 +11,9 @@ template <typename T>
 SeqContainer<T>::SeqContainer(double factor): _factor{factor}
 {
     _factor = _factor > 2 ? 2 : _factor;
+#ifdef DEBUG
     std::cout << "default constructor: " << this << std::endl;
+#endif
 }
 
 template <typename T>
@@ -20,7 +22,9 @@ SeqContainer<T>::SeqContainer(double factor, size_t size, size_t cnt)
         , ptr(_size > 0? new T [_size] : nullptr)
 {
     _factor = _factor > 2 ? 2 : _factor;
+#ifdef DEBUG
     std::cout << "constructor: " << this << std::endl;
+#endif
 }
 
 template <typename T>
@@ -30,8 +34,9 @@ SeqContainer<T>::SeqContainer(const SeqContainer & other)
 
     uninitialized_copy(other.ptr, other.ptr + _cnt, ptr);
     // uninitialized_copy_n(other.ptr, _cnt, ptr);
-
+#ifdef DEBUG
     std::cout << "copy constructor: " << this << std::endl;
+#endif
 }
 
 template <typename T>
@@ -47,8 +52,9 @@ template <typename T>
 SeqContainer<T>& SeqContainer<T>::operator=(SeqContainer other)
 {
     _swap(other);
-
+#ifdef DEBUG
     std::cout << "operator=: " << this << std::endl;
+#endif
     return *this;
 }
 
@@ -60,14 +66,18 @@ SeqContainer<T>::SeqContainer(SeqContainer && other)
 
     other.ptr = nullptr;
     other._factor = other._size = other._cnt = 0;
+#ifdef DEBUG
     std::cout << "move constructor: " << this << std::endl;
+#endif
 }
 
 template <typename T>
 SeqContainer<T>::~SeqContainer()
 {
     delete[] ptr;
+#ifdef DEBUG
     std::cout << "destructor: " << this << std::endl;
+#endif
 }
 
 
