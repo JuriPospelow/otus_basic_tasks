@@ -1,4 +1,5 @@
 #pragma once
+using const_iterator = size_t;
 
 namespace dll
 {
@@ -32,6 +33,20 @@ explicit
         {
             return list[n].data;
         }
+        Node* get_list() const
+        {
+            return list;
+        }
+
+        Node* get_prev(size_t n) const
+        {
+            return list[n].prev;
+        }
+        Node* get_next(size_t n) const
+        {
+            return list[n].next;
+        }
+
         void erase (const_iterator first);
 
         void insert (const_iterator position, const T& val);
@@ -78,6 +93,10 @@ explicit
         {
             return list[n].data;
         }
+        Node* get_list() const
+        {
+            return list;
+        }
         void erase (const_iterator first);
 
         void insert (const_iterator position, const T& val);
@@ -94,4 +113,4 @@ explicit
 } // end namespace sll
 
 
-#include "List.cpp"
+#include "List.tpp"

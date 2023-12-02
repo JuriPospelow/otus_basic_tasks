@@ -11,13 +11,17 @@ namespace dll
     DoublyLinkedList<T>::DoublyLinkedList(size_t size)
     : _size(size), list(size==0 ? nullptr : new Node [_size])
     {
+#ifdef DEBUG
         cout << "constructor: " << this << endl;
+#endif
     }
     template <typename T>
     DoublyLinkedList<T>::~DoublyLinkedList()
     {
         delete[] list;
+#ifdef DEBUG
         cout << "destructor: " << this << endl;
+#endif
     }
     template <typename T>
     DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &other)
@@ -25,7 +29,9 @@ namespace dll
     {
         uninitialized_copy(other.list, other.list + _size, list);
         update();
+#ifdef DEBUG
         cout << "copy constructor: " << this << endl;
+#endif
     }
 
     template <typename T>
@@ -39,7 +45,9 @@ namespace dll
     DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList other)
     {
         _swap(other);
+#ifdef DEBUG
         cout << "operator=: " << this << endl;
+#endif
         return *this;
     }
 
@@ -51,7 +59,9 @@ namespace dll
 
         other.list = nullptr;
         other._size = 0;
+#ifdef DEBUG
         cout << "move constructor: " << this << endl;
+#endif
     }
 
     template <typename T>

@@ -8,5 +8,5 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
-add_executable(sc_tests tests.cpp)
-target_link_libraries(sc_tests PUBLIC gtest gtest_main)
+add_executable(container_tests tests.cpp test_dll.cpp)
+target_link_libraries(container_tests PUBLIC gtest gtest_main)
