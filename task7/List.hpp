@@ -46,6 +46,10 @@ explicit
         {
             return list[n].next;
         }
+        Node* get_addr(size_t n) const
+        {
+            return &list[n];
+        }
 
         void erase (const_iterator first);
 

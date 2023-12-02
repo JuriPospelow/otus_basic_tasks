@@ -146,18 +146,13 @@ TEST(DLL_Container, Insert) {
     EXPECT_EQ(30,c[12]);
 }
 
- TEST(DLL_Container, NextLastAddr) {
+ TEST(DLL_Container, NextPrevAddr) {
     dll::DoublyLinkedList  <int> c;
     for (int i{}; i<10; ++i) {
         c.push_back(i);
     }
-    c.print();
     EXPECT_EQ(nullptr, c.get_prev(0));
-    cout <<"sizeof int: " << sizeof (int)<< std::endl;
-    cout <<"&c[0]: " << &c[0]<< std::endl;
-    cout <<"&c[1]: " << &c[1]<< std::endl;
-    cout << "c.get_next(0): " << c.get_next(0)<< std::endl;
-    // EXPECT_EQ(&c[1], static_cast<int*>(c.get_next(0)));
-    EXPECT_EQ(&c[1], (int*)(c.get_next(0)));
-    // EXPECT_EQ(c.get_next(0), c.get_next(0));
+    EXPECT_EQ(c.get_addr(1), c.get_next(0));
+    EXPECT_EQ(c.get_addr(8), c.get_prev(9));
+    EXPECT_EQ(nullptr, c.get_next(9));
 }
