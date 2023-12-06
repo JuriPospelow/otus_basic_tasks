@@ -5,6 +5,22 @@
 #include <iomanip>
 #include <limits>
 
+template<typename T>
+::testing::AssertionResult isEqual(const dll::DoublyLinkedList<T>& container, std::initializer_list<T> expected) {
+    if (container.size() < size_t(std::distance(expected.begin(), expected.end())) ) {
+        return ::testing::AssertionFailure() << "Wrong container size";
+    }
+
+    size_t index{};
+    for (auto& exp: expected) {
+        if (exp != container[index]) {
+            return ::testing::AssertionFailure() << exp << " not equal to " << container[index];
+        }
+        ++index;
+    }
+    return ::testing::AssertionSuccess();
+}
+
  TEST(DLL_Container, DefaultConstructor) {
     dll::DoublyLinkedList <int> c;
     EXPECT_EQ(0u,c.size());
@@ -39,9 +55,7 @@ TEST(DLL_Container, ArrayIndexOperator) {
     c[1] = 122;
     c[2] = 1222;
 
-    EXPECT_EQ(12,c[0]);
-    EXPECT_EQ(122,c[1]);
-    EXPECT_EQ(1222,c[2]);
+    EXPECT_TRUE(isEqual(c, {12, 122, 1222}));
 }
 
  TEST(DLL_Container, CopyConstructor) {
@@ -109,13 +123,7 @@ TEST(DLL_Container, Erase) {
 
 //0, 1, 2, 3, 4, 5, 6
 //0, 1, 3, 5, 7, 8, 9
-    EXPECT_EQ(0,c[0]);
-    EXPECT_EQ(1,c[1]);
-    EXPECT_EQ(3,c[2]);
-    EXPECT_EQ(5,c[3]);
-    EXPECT_EQ(7,c[4]);
-    EXPECT_EQ(8,c[5]);
-    EXPECT_EQ(9,c[6]);
+    EXPECT_TRUE(isEqual(c, {0, 1, 3, 5, 7, 8, 9}));
 }
 
 TEST(DLL_Container, Insert) {
@@ -131,19 +139,9 @@ TEST(DLL_Container, Insert) {
 
     EXPECT_EQ(13,c.size());
 
-    EXPECT_EQ(10,c[0]);
-    EXPECT_EQ(0,c[1]);
-    EXPECT_EQ(1,c[2]);
-    EXPECT_EQ(2,c[3]);
-    EXPECT_EQ(3,c[4]);
-    EXPECT_EQ(20,c[5]);
-    EXPECT_EQ(4,c[6]);
-    EXPECT_EQ(5,c[7]);
-    EXPECT_EQ(6,c[8]);
-    EXPECT_EQ(7,c[9]);
-    EXPECT_EQ(8,c[10]);
-    EXPECT_EQ(9,c[11]);
-    EXPECT_EQ(30,c[12]);
+    EXPECT_TRUE(isEqual(c, {10, 0, 1, 2, 3, 20, 4, 5, 6, 7, 8, 9, 30}));
+
+
 }
 
  TEST(DLL_Container, NextPrevAddr) {
