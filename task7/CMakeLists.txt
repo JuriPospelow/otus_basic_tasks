@@ -11,7 +11,7 @@ if (MSVC)
     add_compile_options(/W4 /WX)
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror -g)
+    add_compile_options(-Wall -Wextra -pedantic -Werror -g -fsanitize=leak)
 endif()
 
 add_subdirectory(gtests)

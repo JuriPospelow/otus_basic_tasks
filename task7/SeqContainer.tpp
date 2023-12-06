@@ -88,6 +88,7 @@ void SeqContainer<T>::resize(size_t tmp_size)
     uninitialized_copy(ptr, ptr + _cnt, new_region);
     swap(ptr, new_region);
     _size = tmp_size;
+    delete [] new_region;
 }
 
 template <typename T>
@@ -139,6 +140,7 @@ void SeqContainer<T>::insert (const_iterator position, const T& val)
     swap(ptr, new_region);
     ++_cnt;
     _size = tmp;
+    delete [] new_region;
 }
 
 template <typename T>

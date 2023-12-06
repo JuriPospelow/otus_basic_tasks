@@ -74,6 +74,7 @@ namespace dll
         swap(list, new_region);
         ++_size;
         update();
+        delete [] new_region;
     }
 
     template <typename T>
@@ -103,6 +104,7 @@ namespace dll
         swap(list, new_region);
         ++_size;
         update();
+        delete [] new_region;
     }
 
     template <typename T>
@@ -191,6 +193,7 @@ namespace sll
         swap(list, new_region);
         ++_size;
         update();
+        delete [] new_region;
     }
 
     template <typename T>
@@ -219,6 +222,7 @@ namespace sll
         swap(list, new_region);
         ++_size;
         update();
+        delete [] new_region;
     }
 
     template <typename T>
