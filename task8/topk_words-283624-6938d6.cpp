@@ -11,15 +11,32 @@
 #include <vector>
 #include <chrono>
 
+
+using namespace std;
+
 const size_t TOPK = 10;
 
 using Counter = std::map<std::string, std::size_t>;
 
 std::string tolower(const std::string &str);
-
 void count_words(std::istream& stream, Counter&);
-
 void print_topk(std::ostream& stream, const Counter&, const size_t k);
+
+Counter all_dicts;
+
+int count_chr(string name)
+{
+    Counter freq_dict;
+    std::ifstream input{name};
+    if (!input.is_open()) {
+        std::cerr << "Failed to open file " << name << '\n';
+        return EXIT_FAILURE;
+    }
+    count_words(input, freq_dict);
+
+    all_dicts = freq_dict;
+    return 0;
+}
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -28,17 +45,12 @@ int main(int argc, char *argv[]) {
     }
 
     auto start = std::chrono::high_resolution_clock::now();
-    Counter freq_dict;
+
     for (int i = 1; i < argc; ++i) {
-        std::ifstream input{argv[i]};
-        if (!input.is_open()) {
-            std::cerr << "Failed to open file " << argv[i] << '\n';
-            return EXIT_FAILURE;
-        }
-        count_words(input, freq_dict);
+        count_chr(argv[i]);
     }
 
-    print_topk(std::cout, freq_dict, TOPK);
+    print_topk(std::cout, all_dicts, TOPK);
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "Elapsed time is " << elapsed_ms.count() << " us\n";
