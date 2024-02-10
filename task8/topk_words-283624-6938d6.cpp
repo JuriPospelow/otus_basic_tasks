@@ -11,6 +11,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <mutex>
 
 
 using namespace std;
@@ -24,8 +25,9 @@ void count_words(std::istream& stream, Counter&);
 void print_topk(std::ostream& stream, const Counter&, const size_t k);
 
 Counter all_dicts;
+mutex mx;
 
-int count_chr(string name, vector<Counter>& cnts)
+int count_chr(string name, vector<Counter>& cnts, mutex& mx)
 {
     Counter freq_dict;
     std::ifstream input{name};
@@ -34,7 +36,7 @@ int count_chr(string name, vector<Counter>& cnts)
         return EXIT_FAILURE;
     }
     count_words(input, freq_dict);
-
+lock_guard lock(mx);
     cnts.emplace_back(freq_dict);
 
     return 0;
@@ -51,7 +53,7 @@ int main(int argc, char *argv[]) {
 
     auto start = std::chrono::high_resolution_clock::now();
     for (int i = 1; i < argc; ++i) {
-        counts_chr.emplace_back(count_chr, argv[i], ref(counts));
+        counts_chr.emplace_back(count_chr, argv[i], ref(counts), ref(mx));
     }
 
     for (auto& i : counts_chr){
