@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <chrono>
+#include <thread>
 
 
 using namespace std;
@@ -44,10 +45,15 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto start = std::chrono::high_resolution_clock::now();
+    vector<thread> counts_chr;
 
+    auto start = std::chrono::high_resolution_clock::now();
     for (int i = 1; i < argc; ++i) {
-        count_chr(argv[i]);
+        counts_chr.emplace_back(count_chr, argv[i]);
+    }
+
+    for (auto& i : counts_chr){
+        i.join();
     }
 
     print_topk(std::cout, all_dicts, TOPK);
@@ -62,7 +68,7 @@ std::string tolower(const std::string &str) {
                    std::back_inserter(lower_str),
                    [](unsigned char ch) { return std::tolower(ch); });
     return lower_str;
-};
+}
 
 void count_words(std::istream& stream, Counter& counter) {
     std::for_each(std::istream_iterator<std::string>(stream),
