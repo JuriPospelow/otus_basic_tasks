@@ -25,7 +25,7 @@ void print_topk(std::ostream& stream, const Counter&, const size_t k);
 
 Counter all_dicts;
 
-int count_chr(string name)
+int count_chr(string name, vector<Counter>& cnts)
 {
     Counter freq_dict;
     std::ifstream input{name};
@@ -35,7 +35,8 @@ int count_chr(string name)
     }
     count_words(input, freq_dict);
 
-    all_dicts = freq_dict;
+    cnts.emplace_back(freq_dict);
+
     return 0;
 }
 
@@ -46,14 +47,20 @@ int main(int argc, char *argv[]) {
     }
 
     vector<thread> counts_chr;
+    vector<Counter> counts;
 
     auto start = std::chrono::high_resolution_clock::now();
     for (int i = 1; i < argc; ++i) {
-        counts_chr.emplace_back(count_chr, argv[i]);
+        counts_chr.emplace_back(count_chr, argv[i], ref(counts));
     }
 
     for (auto& i : counts_chr){
         i.join();
+    }
+
+    while (counts.size()) {
+        all_dicts = counts.back();
+        counts.pop_back();
     }
 
     print_topk(std::cout, all_dicts, TOPK);
