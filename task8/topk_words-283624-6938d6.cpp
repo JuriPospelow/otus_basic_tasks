@@ -27,6 +27,24 @@ void print_topk(std::ostream& stream, const Counter&, const size_t k);
 Counter all_dicts;
 mutex mx;
 
+void add_maps(Counter& m1, Counter& m2)
+{
+    if (!m1.size()){
+        m1 = m2;
+        return;
+    }
+    for(auto it_m1 = m1.begin(), end_m1 = m1.end(),
+             it_m2 = m2.begin(), end_m2 = m2.end();
+             it_m1 != end_m1 ;)
+    {
+        if(it_m1 != end_m1 && it_m2 != end_m2) {
+             if (it_m1->first == it_m2->first) it_m1->second += it_m2->second;
+        }
+        ++it_m1;
+        ++it_m2;
+    }
+}
+
 int count_chr(string name, vector<Counter>& cnts, mutex& mx)
 {
     Counter freq_dict;
@@ -61,7 +79,7 @@ int main(int argc, char *argv[]) {
     }
 
     while (counts.size()) {
-        all_dicts = counts.back();
+        add_maps(all_dicts,counts.back());
         counts.pop_back();
     }
 
